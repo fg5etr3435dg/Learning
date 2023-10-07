@@ -28,7 +28,7 @@ void showPerson (Addressbooks *abs);
 void findPerson (Addressbooks *abs);
 void deletePerson (Addressbooks *abs);
 void newPerson (Addressbooks *abs,int num);
-
+void clearPerson (Addressbooks *abs);
 int isExist (Addressbooks *abs,string name);
 void showMenu  ( );
 
@@ -59,7 +59,7 @@ int main ()
             break;
 
         case 5:
-
+        clearPerson(&abs);
             break;
         case 0:
             cout<<"退出成功,欢迎下次使用......"<<endl;
@@ -78,6 +78,8 @@ int main ()
     return 0;
 
 }
+
+
 void showMenu()
 {
     cout<<"**************************"<<endl;
@@ -104,8 +106,8 @@ void showPerson (Addressbooks *abs)
        for ( int i = 0; i < abs->m_Size; i++)
        {
         string str;
-        abs->personArray->m_Sex? str="女":str="男";
-        cout<<left <<setw(8)<<i<< setw(8)<<abs->personArray->m_Name<< setw(8)<<str<< setw(8)<<abs->personArray->m_Age<< setw(15)<<abs->personArray->m_Phone<< setw(20)<<abs->personArray->m_Addr<<endl;
+        abs->personArray[i].m_Sex? str="女":str="男";
+        cout<<left <<setw(8)<<i<< setw(8)<<abs->personArray[i].m_Name<< setw(8)<<str<< setw(8)<<abs->personArray[i].m_Age<< setw(15)<<abs->personArray[i].m_Phone<< setw(20)<<abs->personArray[i].m_Addr<<endl;
        }       
         system("pause");
         system("cls");
@@ -282,8 +284,46 @@ void newPerson (Addressbooks *abs,int num)  //删除人员之后，将重新排序
     for (int i = num; i < abs->m_Size; i++)
     {
         abs->personArray[i]=abs->personArray[i+1];
-        //abs->personArray[abs->m_Size]=nup;
+        //abs->personArray[abs->m_Size]=NULL;
      }
      abs->m_Size--;
     
+}
+void clearPerson (Addressbooks *abs)
+{
+    if(abs->m_Size==0)
+    {
+        cout<<"当前通讯录为空."<<endl;
+        system("pause");
+        system("cls");
+    }  
+    else
+    {
+    string str;
+    cout<<"请问是否要删除所有联系人?(YES/NO)"<<endl;
+    while (1)
+        {       
+            string Deter;
+            cin>>Deter;
+            for (int i=0; i <Deter.size(); i++)  Deter[i] = toupper(Deter[i]); //转换为大写字母
+            
+            if(Deter=="YES"||Deter=="Y") 
+            {
+                abs->m_Size=0;
+                cout<<"所有联系人删除成功!"<<endl;
+                system("pause");
+                system("cls");
+                break;
+            }
+            else if(Deter=="NO"||Deter=="N")
+            {
+                break;
+            }
+            else
+            {
+                cout<<"输入有误！请重新输入;"<<endl;
+            }
+        }    
+    }
+
 }
